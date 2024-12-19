@@ -6,9 +6,15 @@ public class StairManager : MonoBehaviour
     [SerializeField] GameObject stairPrefab;
 
     HashSet<int> stairChanges = new HashSet<int>();
+
     void Start()
     {
         GenerateStairs();
+    }
+
+    public bool HasTurn(int i)
+    {
+        return stairChanges.Contains(i);
     }
 
     void GenerateStairs()

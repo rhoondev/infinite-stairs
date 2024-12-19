@@ -3,26 +3,39 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    int direction = -1;
-    int index = 0;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] StairManager stairManager;
+
+    int direction;
+    int index;
+
     void Start()
     {
-        
+        Reset();
     }
 
-    // Update is called once per frame
     void Update()
     {
         bool movePlayer = false;
 
         if (Input.GetKeyDown(KeyCode.Space)) // CLIMB
         {
+            if (stairManager.HasTurn(index))
+            {
+                Reset();
+                return;
+            }
+
             index++;
             movePlayer = true;
         }
         else if (Input.GetKeyDown(KeyCode.A)) // TURN
         {
+            if (!stairManager.HasTurn(index))
+            {
+                Reset();
+                return;
+            }
+
             direction *= -1;
             index++;
             movePlayer = true;
@@ -32,5 +45,12 @@ public class PlayerController : MonoBehaviour
         {
             transform.Translate(new Vector2(direction, 1));
         }
+    }
+
+    void Reset()
+    {
+        direction = -1;
+        index = 0;
+        transform.position = Vector3.zero;
     }
 }
