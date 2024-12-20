@@ -4,6 +4,8 @@ using UnityEngine;
 public class StairManager : MonoBehaviour
 {
     [SerializeField] GameObject stairPrefab;
+    [SerializeField] int minStretchLength;
+    [SerializeField] int maxStretchLength;
 
     HashSet<int> stairChanges = new HashSet<int>();
 
@@ -19,12 +21,14 @@ public class StairManager : MonoBehaviour
 
     void GenerateStairs()
     {
-        for (int i = 2; i <= 100; i++)
+        int index = 1;
+
+        while (index < 100)
         {
-            if (Random.value < 0.2f)
-            {
-                stairChanges.Add(i);
-            }
+            float rand = Mathf.Pow(Random.value, 1.5f);
+            int length = (int)Mathf.Lerp(minStretchLength, maxStretchLength + 0.999f, rand);
+            index += length;
+            stairChanges.Add(index);
         }
 
         int direction = -1;

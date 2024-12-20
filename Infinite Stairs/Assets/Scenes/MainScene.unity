@@ -460,6 +460,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stairPrefab: {fileID: 7241753018844175961, guid: 0064e2b4c0d201444aa8c3dcacc8b000, type: 3}
+  minStretchLength: 1
+  maxStretchLength: 7
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
