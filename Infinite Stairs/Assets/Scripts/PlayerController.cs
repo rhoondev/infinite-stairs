@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,40 +7,39 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] StairManager stairManager;
 
-    int direction;
-    int index;
-
-    void Start()
-    {
-        Reset();
-    }
+    int direction = -1;
+    int index = 0;
+    bool dead = false;
 
     void Update()
     {
+        if (dead)
+        {
+            return;
+        }
+
         bool movePlayer = false;
 
         if (Input.GetKeyDown(KeyCode.Space)) // CLIMB
         {
-            if (stairManager.HasTurn(index))
-            {
-                Reset();
-                return;
-            }
-
             index++;
             movePlayer = true;
+
+            if (stairManager.HasTurn(index - 1))
+            {
+                StartCoroutine(Reset());
+            }
         }
         else if (Input.GetKeyDown(KeyCode.A)) // TURN
         {
-            if (!stairManager.HasTurn(index))
-            {
-                Reset();
-                return;
-            }
-
             direction *= -1;
             index++;
             movePlayer = true;
+
+            if (!stairManager.HasTurn(index - 1))
+            {
+                StartCoroutine(Reset());
+            }
         }
 
         if (movePlayer)
@@ -47,10 +48,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Reset()
+    IEnumerator Reset()
     {
+        dead = true;
+
+        yield return new WaitForSeconds(1f);
+
         direction = -1;
         index = 0;
         transform.position = Vector3.zero;
+        dead = false;
     }
 }
