@@ -6,10 +6,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] StairManager stairManager;
+    [SerializeField] Timer timer;
 
     int direction = -1;
     int index = 0;
     bool dead = false;
+
+    public int GetScore()
+    {
+        return index;
+    }
 
     void Update()
     {
@@ -45,6 +51,8 @@ public class PlayerController : MonoBehaviour
         if (movePlayer)
         {
             transform.Translate(new Vector2(direction, 1));
+            timer.SetDifficulty(index);
+            timer.IncreaseTimer();
         }
     }
 
@@ -57,6 +65,8 @@ public class PlayerController : MonoBehaviour
         direction = -1;
         index = 0;
         transform.position = Vector3.zero;
+        timer.SetDifficulty(index);
+
         dead = false;
     }
 }
